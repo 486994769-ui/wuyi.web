@@ -262,7 +262,7 @@
       opacity: 0;
       transition: opacity 0.3s ease;
       /* 暗色模式下加星点纹理 */
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23ffffff20' d='M34.5,-32.8C41.7,-25.5,47.1,-13.9,46.7,-1.3C46.3,11.3,40.1,22.8,30.3,30.3C20.5,37.8,7.1,41.3,-6.1,41.3C-19.3,41.3,-32.5,37.8,-39.3,28.5C-46.1,19.2,-46.5,4.1,-42.8,-9.8C-39.1,-23.7,-31.3,-36.4,-20.8,-41.3C-10.3,-46.2,1.1,-43.3,12.8,-37.8C24.5,-32.3,36.5,-24.2,34.5,-32.8Z' transform='translate(100 100) scale(0.8)'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23ffffff20' d='M34.5,-32.8C41.7,-25.5,47.1,-13.9,46.7,-1.3C46.3,11.3,40.1,22.8,30.3,30.3C20.5,37.8,7.1,41.3,-6.1,41.3C-19.3,41.3,-32.5,37.8,-39.3,28.5C-46.1,19.2,-46.5,4.1,-42.8,-9.8C-39.1,-23.7,-31.3,-36.4,-20.8,-41.3C-10.3,-46.2,1.1,-43.3,12.8,-37.8C24.5,-32.3,36.5,-24.2,34.5,-32.8Z' transform='translate(100 100) scale(0.8)'/%3E%3C/svg%3E");  
     }
     .dark-mode #modal {
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%235d8aa830' d='M34.5,-32.8C41.7,-25.5,47.1,-13.9,46.7,-1.3C46.3,11.3,40.1,22.8,30.3,30.3C20.5,37.8,7.1,41.3,-6.1,41.3C-19.3,41.3,-32.5,37.8,-39.3,28.5C-46.1,19.2,-46.5,4.1,-42.8,-9.8C-39.1,-23.7,-31.3,-36.4,-20.8,-41.3C-10.3,-46.2,1.1,-43.3,12.8,-37.8C24.5,-32.3,36.5,-24.2,34.5,-32.8Z' transform='translate(100 100) scale(0.8)'/%3E%3C/svg%3E");
@@ -375,16 +375,17 @@
   <script>
     // 👇 在这里填写你的照片信息（新增 category 字段）
     const photos = [
-      { src: "images/wuyi1.jpg", alt: "无翼老师", category: "无翼" },                                            
-      { src: "images/kira1.jpg", alt: "猪鼻KIRA", category: "KIRA" },          
-      { src: "images/xxz1.jpg", alt: "BAKA寻寻子", category: "寻寻子" },            
-      { src: "images/wuyi2.jpg", alt: "无翼老师", category: "无翼" },      
+      { src: "images/wuyi1.jpg", alt: "无翼老师", category: "无翼" },                                                
+      { src: "images/kira1.jpg", alt: "猪鼻KIRA", category: "KIRA" },            
+      { src: "images/xxz1.jpg", alt: "BAKA寻寻子", category: "寻寻子" },              
+      { src: "images/wuyi2.jpg", alt: "无翼老师", category: "无翼" },        
       { src: "images/kira2.jpg", alt: "猪鼻KIRA", category: "KIRA" },      
-      { src: "images/xxz2.jpg", alt: "BAKA寻寻子", category: "寻寻子" }, 
-      { src: "images/karinhu1.jpg", alt: "karinhu", category: "karinhu" },        
-      { src: "images/karinhu2.jpg", alt: "karinhu", category: "karinhu" },     
-      { src: "images/xxz3.jpg", alt: "BAKA寻寻子", category: "寻寻子" },   
+      { src: "images/xxz2.jpg", alt: "BAKA寻寻子", category: "寻寻子" },   
+      { src: "images/karinhu1.jpg", alt: "karinhu", category: "卡琳狐" },          
+      { src: "images/karinhu2.jpg", alt: "karinhu", category: "卡琳狐" },       
+      { src: "images/xxz3.jpg", alt: "BAKA寻寻子", category: "寻寻子" },       
       { src: "images/YT.jpg", alt: "YT", category: "杨桃" },   
+      { src: "images/wuyi3.jpg", alt: "无翼老师", category: "无翼" },   
 ];
 
     // 获取唯一分类
@@ -499,5 +500,6 @@
   </script>
 </body>
 </html>
+
 
 
