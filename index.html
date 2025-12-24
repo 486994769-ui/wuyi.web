@@ -1,28 +1,52 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" id="html-root">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>wuyi的摄影作品</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <title>WUYI的摄影作品</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">  
   <style>
+    :root {
+      --bg-primary: linear-gradient(135deg, #f5f7fa 0%, #e4edf9 100%);
+      --text-primary: #2c3e50;
+      --text-secondary: #6c7a89;
+      --card-bg: #fff;
+      --shadow: 0 6px 16px rgba(0,0,0,0.08);
+      --shadow-hover: 0 12px 24px rgba(0,0,0,0.15);
+      --overlay-bg: rgba(0, 0, 0, 0.65);
+      --modal-bg: rgba(0,0,0,0.9);
+    }
+
+    .dark-mode {
+      --bg-primary: linear-gradient(135deg, #1a1f2b 0%, #121826 100%);
+      --text-primary: #e0e6f0;
+      --text-secondary: #a0aec0;
+      --card-bg: #1e293b;
+      --shadow: 0 6px 16px rgba(0,0,0,0.3);
+      --shadow-hover: 0 12px 24px rgba(0,0,0,0.4);
+      --overlay-bg: rgba(0, 0, 0, 0.75);
+      --modal-bg: rgba(10, 10, 20, 0.95);
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: "Noto Sans SC", "Helvetica Neue", Arial, sans-serif;
-      background: linear-gradient(135deg, #f5f7fa 0%, #e4edf9 100%);
-      color: #2c3e50;
+      background: var(--bg-primary);
+      color: var(--text-primary);
       padding: 20px;
       min-height: 100vh;
+      transition: background 0.4s ease, color 0.4s ease;
     }
     header {
       text-align: center;
-      margin-bottom: 30px;
-      padding: 30px 0 20px;
+      margin-bottom: 20px;
+      padding: 20px 0;
+      position: relative;
     }
     h1 {
-      font-size: 2.8rem;
+      font-size: 2.6rem;
       font-weight: 700;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       background: linear-gradient(90deg, #5d8aa8, #4a6b8a);
       -webkit-background-clip: text;
       background-clip: text;
@@ -30,9 +54,55 @@
       letter-spacing: 1px;
     }
     header p {
-      font-size: 1.1rem;
-      color: #6c7a89;
+      font-size: 1.05rem;
+      color: var(--text-secondary);
       font-weight: 300;
+    }
+
+    /* 暗色模式切换按钮 */
+    #theme-toggle {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: var(--card-bg);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+    }
+    #theme-toggle:hover {
+      transform: rotate(20deg);
+    }
+
+    /* 分类标签栏 */
+    .filters {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: 8px 18px;
+      background: var(--card-bg);
+      border: 2px solid #cbd5e1;
+      border-radius: 30px;
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: #5d8aa8;
+      color: white;
+      border-color: #5d8aa8;
     }
 
     .gallery {
@@ -48,11 +118,11 @@
       height: 280px;
       overflow: hidden;
       border-radius: 12px;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+      box-shadow: var(--shadow);
       cursor: pointer;
       position: relative;
       transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      background: #fff;
+      background: var(--card-bg);
       opacity: 0;
       animation: fadeIn 0.6s forwards;
     }
@@ -70,7 +140,7 @@
 
     .gallery-item:hover {
       transform: translateY(-8px) scale(1.02);
-      box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+      box-shadow: var(--shadow-hover);
       z-index: 10;
     }
 
@@ -91,7 +161,7 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background: rgba(0, 0, 0, 0.65);
+      background: var(--overlay-bg);
       color: white;
       padding: 12px;
       font-size: 1rem;
@@ -109,12 +179,12 @@
     footer {
       text-align: center;
       margin-top: 50px;
-      color: #7f8c8d;
+      color: var(--text-secondary);
       font-size: 0.95rem;
       padding: 20px;
     }
 
-    /* 模态框样式 */
+    /* 模态框 */
     #modal {
       display: none;
       position: fixed;
@@ -122,7 +192,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0,0,0,0.9);
+      background: var(--modal-bg);
       z-index: 1000;
       justify-content: center;
       align-items: center;
@@ -144,85 +214,208 @@
       top: 20px;
       right: 30px;
       color: white;
-      font-size: 2rem;
+      font-size: 2.2rem;
       cursor: pointer;
       background: none;
       border: none;
       font-weight: bold;
     }
+
+    /* 分享按钮 */
+    #share-btn {
+      position: absolute;
+      bottom: 30px;
+      right: 30px;
+      background: #5d8aa8;
+      color: white;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: transform 0.2s ease;
+    }
+    #share-btn:hover {
+      transform: scale(1.1);
+    }
+
+    /* 提示消息 */
+    #toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--card-bg);
+      color: var(--text-primary);
+      padding: 12px 24px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      opacity: 0;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+      z-index: 2000;
+    }
+    #toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
   </style>
 </head>
 <body>
   <header>
-    <h1>✨ 我的摄影世界</h1>
-    <p>记录光影，定格瞬间</p>
+    <button id="theme-toggle">🌙</button>  
+    <h1>✨ 我的摄影世界 ✨</h1>
+    <p>相机记录光影，虚拟定格瞬间</p>
   </header>
+
+  <!-- 分类标签 -->
+  <div class="filters" id="filters">
+    <!-- 动态生成 -->
+  </div>
 
   <div class="gallery" id="gallery">
     <!-- 照片将通过 JS 动态插入 -->
   </div>
 
   <footer>
-    <p>© 2025 WUYI的虚拟摄影作品集</p>
+    <p>© 2025 我的摄影作品集</p>
   </footer>
 
   <!-- 模态框 -->
   <div id="modal">
     <button id="close">&times;</button>
-    <img id="modal-img" src="" alt="大图预览">
+    <img id="modal-img" src="" alt="大图预览">  
+    <button id="share-btn">↗</button>
   </div>
 
+  <!-- 提示消息 -->
+  <div id="toast">链接已复制到剪贴板！</div>
+
   <script>
+    // 👇 在这里填写你的照片信息（新增 category 字段）
     const photos = [
-      { src: "images/photo1.jpg", alt: "日落海岸" },
-      { src: "images/photo2.jpg", alt: "城市夜景" },
-      { src: "images/photo3.jpg", alt: "森林晨雾" },
+      { src: "images/photo1.jpg", alt: "无翼老师", category: "无翼" },                                        
+      { src: "images/photo2.jpg", alt: "猪鼻KIRA", category: "KIRA" },        
+      { src: "images/photo3.jpg", alt: "BAKA寻寻子", category: "寻寻子" },          
+      { src: "images/photo4.jpg", alt: "无翼老师", category: "无翼" },    
+      { src: "images/photo5.jpg", alt: "猪鼻KIRA", category: "KIRA" },    
+      { src: "images/photo6.jpg", alt: "BAKA寻寻子", category: "寻寻子" },      
       // ➕ 继续添加你的照片
     ];
 
+    // 获取唯一分类
+    const categories = ["全部", ...new Set(photos.map(p => p.category))];
+
+    // 渲染分类按钮
+    const filtersContainer = document.getElementById("filters");
+    categories.forEach(cat => {
+      const btn = document.createElement("button");
+      btn.className = "filter-btn";
+      if (cat === "全部") btn.classList.add("active");
+      btn.textContent = cat;
+      btn.dataset.category = cat;
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        filterGallery(cat);
+      });
+      filtersContainer.appendChild(btn);
+    });
+
     const gallery = document.getElementById("gallery");
+    let currentFilter = "全部";
+
+    function renderGallery(items) {
+      gallery.innerHTML = "";
+      items.forEach((photo, index) => {
+        const item = document.createElement("div");
+        item.className = "gallery-item";
+        item.style.animationDelay = `${0.1 + (index % 6) * 0.1}s`;
+        item.innerHTML = `
+          <img src="${photo.src}" alt="${photo.alt}" loading="lazy">
+          <div class="photo-title">${photo.alt}</div>
+        `;
+        item.addEventListener("click", () => {
+          modalImg.src = photo.src;
+          modalImg.alt = photo.alt;
+          modal.classList.add("active");
+          document.body.style.overflow = "hidden";
+        });
+        gallery.appendChild(item);
+      });
+    }
+
+    function filterGallery(category) {
+      currentFilter = category;
+      const filtered = category === "全部" 
+        ? photos 
+        : photos.filter(p => p.category === category);
+      renderGallery(filtered);
+    }
+
+    // 初始渲染
+    renderGallery(photos);
+
+    // ===== 暗色模式 =====
+    const htmlRoot = document.getElementById("html-root");
+    const themeToggle = document.getElementById("theme-toggle");
+    const isDarkMode = localStorage.getItem("darkMode") === "true";
+
+    if (isDarkMode) {
+      htmlRoot.classList.add("dark-mode");
+      themeToggle.textContent = "☀️";
+    }
+
+    themeToggle.addEventListener("click", () => {
+      htmlRoot.classList.toggle("dark-mode");
+      const isNowDark = htmlRoot.classList.contains("dark-mode");
+      themeToggle.textContent = isNowDark ? "☀️" : "🌙";
+      localStorage.setItem("darkMode", isNowDark);
+    });
+
+    // ===== 模态框 & 分享 =====
     const modal = document.getElementById("modal");
     const modalImg = document.getElementById("modal-img");
     const closeBtn = document.getElementById("close");
+    const shareBtn = document.getElementById("share-btn");
+    const toast = document.getElementById("toast");
 
-    photos.forEach(photo => {
-      const item = document.createElement("div");
-      item.className = "gallery-item";
-      item.innerHTML = `
-        <img src="${photo.src}" alt="${photo.alt}" loading="lazy">
-        <div class="photo-title">${photo.alt}</div>
-      `;
-      item.addEventListener("click", () => {
-        modalImg.src = photo.src;
-        modalImg.alt = photo.alt;
-        modal.classList.add("active");
-        document.body.style.overflow = "hidden"; // 防止背景滚动
-      });
-      gallery.appendChild(item);
-    });
-
-    // 关闭模态框
-    closeBtn.addEventListener("click", () => {
-      modal.classList.remove("active");
-      document.body.style.overflow = "";
-    });
-
-    // 点击背景关闭
+    closeBtn.addEventListener("click", closeModal);
     modal.addEventListener("click", (e) => {
-      if (e.target === modal) {
-        modal.classList.remove("active");
-        document.body.style.overflow = "";
-      }
+      if (e.target === modal) closeModal();
     });
 
-    // 键盘 ESC 关闭
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && modal.classList.contains("active")) {
-        modal.classList.remove("active");
-        document.body.style.overflow = "";
+        closeModal();
       }
     });
+
+    function closeModal() {
+      modal.classList.remove("active");
+      document.body.style.overflow = "";
+    }
+
+    // 分享功能
+    shareBtn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        showToast();
+      } catch (err) {
+        alert("无法复制链接，请手动分享！");
+      }
+    });
+
+    function showToast() {
+      toast.classList.add("show");
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2000);
+    }
   </script>
 </body>
 </html>
-
