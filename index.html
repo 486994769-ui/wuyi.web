@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>WUYI的摄影作品</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">  
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">  
   <style>
     :root {
       --bg-primary: linear-gradient(135deg, #f5f7fa 0%, #e4edf9 100%);
@@ -36,13 +36,41 @@
       padding: 20px;
       min-height: 100vh;
       transition: background 0.4s ease, color 0.4s ease;
+      opacity: 0;
+      animation: pageFadeIn 0.8s forwards;
     }
+
+    @keyframes pageFadeIn {
+      to { opacity: 1; }
+    }
+
     header {
       text-align: center;
       margin-bottom: 20px;
       padding: 20px 0;
       position: relative;
     }
+
+    /* ✨ 星光装饰 */
+    .title-container {
+      position: relative;
+      display: inline-block;
+    }
+    .sparkle {
+      position: absolute;
+      font-size: 1.2rem;
+      opacity: 0;
+      animation: sparkleFloat 3s infinite ease-in-out;
+    }
+    .sparkle:nth-child(1) { top: -20px; left: -30px; animation-delay: 0s; }
+    .sparkle:nth-child(2) { top: -25px; right: -35px; animation-delay: 0.8s; }
+    .sparkle:nth-child(3) { bottom: -15px; left: -25px; animation-delay: 1.6s; }
+
+    @keyframes sparkleFloat {
+      0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0; }
+      50% { transform: translateY(-15px) rotate(15deg); opacity: 1; }
+    }
+
     h1 {
       font-size: 2.6rem;
       font-weight: 700;
@@ -52,7 +80,45 @@
       background-clip: text;
       color: transparent;
       letter-spacing: 1px;
+      position: relative;
+      display: inline-block;
     }
+
+    /* 玻璃卡片光泽 */
+    .gallery-item {
+      height: 280px;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      position: relative;
+      transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      background: var(--card-bg);
+      opacity: 0;
+      animation: fadeIn 0.6s forwards;
+      /* 添加光泽层 */
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.3) 0%, transparent 40%),
+        var(--card-bg);
+      background-origin: border-box;
+      background-clip: padding-box, border-box;
+    }
+
+    /* 柔光呼吸边框 */
+    .gallery-item::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      border-radius: 12px;
+      box-shadow: inset 0 0 20px rgba(93, 138, 168, 0);
+      transition: box-shadow 0.4s ease;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .gallery-item:hover::before {
+      box-shadow: inset 0 0 20px rgba(93, 138, 168, 0.4);
+    }
+
     header p {
       font-size: 1.05rem;
       color: var(--text-secondary);
@@ -114,19 +180,6 @@
       padding: 10px;
     }
 
-    .gallery-item {
-      height: 280px;
-      overflow: hidden;
-      border-radius: 12px;
-      box-shadow: var(--shadow);
-      cursor: pointer;
-      position: relative;
-      transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      background: var(--card-bg);
-      opacity: 0;
-      animation: fadeIn 0.6s forwards;
-    }
-
     .gallery-item:nth-child(1) { animation-delay: 0.1s; }
     .gallery-item:nth-child(2) { animation-delay: 0.2s; }
     .gallery-item:nth-child(3) { animation-delay: 0.3s; }
@@ -184,6 +237,16 @@
       padding: 20px;
     }
 
+    /* ❤️ 脉动爱心 */
+    footer p:last-child {
+      margin-top: 8px;
+      animation: heartbeat 1.8s infinite;
+    }
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }
+
     /* 模态框 */
     #modal {
       display: none;
@@ -198,6 +261,11 @@
       align-items: center;
       opacity: 0;
       transition: opacity 0.3s ease;
+      /* 暗色模式下加星点纹理 */
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23ffffff20' d='M34.5,-32.8C41.7,-25.5,47.1,-13.9,46.7,-1.3C46.3,11.3,40.1,22.8,30.3,30.3C20.5,37.8,7.1,41.3,-6.1,41.3C-19.3,41.3,-32.5,37.8,-39.3,28.5C-46.1,19.2,-46.5,4.1,-42.8,-9.8C-39.1,-23.7,-31.3,-36.4,-20.8,-41.3C-10.3,-46.2,1.1,-43.3,12.8,-37.8C24.5,-32.3,36.5,-24.2,34.5,-32.8Z' transform='translate(100 100) scale(0.8)'/%3E%3C/svg%3E");
+    }
+    .dark-mode #modal {
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%235d8aa830' d='M34.5,-32.8C41.7,-25.5,47.1,-13.9,46.7,-1.3C46.3,11.3,40.1,22.8,30.3,30.3C20.5,37.8,7.1,41.3,-6.1,41.3C-19.3,41.3,-32.5,37.8,-39.3,28.5C-46.1,19.2,-46.5,4.1,-42.8,-9.8C-39.1,-23.7,-31.3,-36.4,-20.8,-41.3C-10.3,-46.2,1.1,-43.3,12.8,-37.8C24.5,-32.3,36.5,-24.2,34.5,-32.8Z' transform='translate(100 100) scale(0.8)'/%3E%3C/svg%3E");
     }
     #modal.active {
       display: flex;
@@ -267,8 +335,16 @@
 </head>
 <body>
   <header>
-    <button id="theme-toggle">🌙</button>  
-    <h1>✨ 我的摄影世界</h1>
+    <button id="theme-toggle">🌙</button>  
+
+    <!-- ✨ 包裹标题 + 星光 -->
+    <div class="title-container">
+      <span class="sparkle">✨</span>
+      <span class="sparkle">🌟</span>
+      <span class="sparkle">💫</span>
+      <h1>我的摄影世界</h1>
+    </div>
+
     <p>相机记录光影，虚拟定格瞬间</p>
   </header>
 
@@ -289,7 +365,7 @@
   <!-- 模态框 -->
   <div id="modal">
     <button id="close">&times;</button>
-    <img id="modal-img" src="" alt="大图预览">  
+    <img id="modal-img" src="" alt="大图预览">  
     <button id="share-btn">↗</button>
   </div>
 
@@ -299,13 +375,12 @@
   <script>
     // 👇 在这里填写你的照片信息（新增 category 字段）
     const photos = [
-      { src: "images/photo1.jpg", alt: "无翼老师", category: "无翼" },                                        
-      { src: "images/photo2.jpg", alt: "猪鼻KIRA", category: "KIRA" },        
-      { src: "images/photo3.jpg", alt: "BAKA寻寻子", category: "寻寻子" },          
-      { src: "images/photo4.jpg", alt: "无翼老师", category: "无翼" },    
-      { src: "images/photo5.jpg", alt: "猪鼻KIRA", category: "KIRA" },    
-      { src: "images/photo6.jpg", alt: "BAKA寻寻子", category: "寻寻子" },      
-      // ➕ 继续添加你的照片
+      { src: "images/photo1.jpg", alt: "无翼老师", category: "无翼" },                                        
+      { src: "images/photo2.jpg", alt: "猪鼻KIRA", category: "KIRA" },        
+      { src: "images/photo3.jpg", alt: "BAKA寻寻子", category: "寻寻子" },          
+      { src: "images/photo4.jpg", alt: "无翼老师", category: "无翼" },    
+      { src: "images/photo5.jpg", alt: "猪鼻KIRA", category: "KIRA" },    
+      { src: "images/photo6.jpg", alt: "BAKA寻寻子", category: "寻寻子" },      
     ];
 
     // 获取唯一分类
