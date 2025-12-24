@@ -4,52 +4,151 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>我的摄影作品</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      background: #f9f9f9;
-      color: #333;
+      font-family: "Noto Sans SC", "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4edf9 100%);
+      color: #2c3e50;
       padding: 20px;
+      min-height: 100vh;
     }
     header {
       text-align: center;
       margin-bottom: 30px;
-      padding: 20px 0;
+      padding: 30px 0 20px;
     }
     h1 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
+      font-size: 2.8rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      background: linear-gradient(90deg, #5d8aa8, #4a6b8a);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: 1px;
     }
+    header p {
+      font-size: 1.1rem;
+      color: #6c7a89;
+      font-weight: 300;
+    }
+
     .gallery {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 20px;
+      gap: 24px;
       max-width: 1200px;
       margin: 0 auto;
+      padding: 10px;
     }
+
     .gallery-item {
-      height: 250px;
+      height: 280px;
       overflow: hidden;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
       cursor: pointer;
-      transition: transform 0.3s ease;
+      position: relative;
+      transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      background: #fff;
+      opacity: 0;
+      animation: fadeIn 0.6s forwards;
     }
+
+    .gallery-item:nth-child(1) { animation-delay: 0.1s; }
+    .gallery-item:nth-child(2) { animation-delay: 0.2s; }
+    .gallery-item:nth-child(3) { animation-delay: 0.3s; }
+    .gallery-item:nth-child(4) { animation-delay: 0.4s; }
+    .gallery-item:nth-child(5) { animation-delay: 0.5s; }
+    .gallery-item:nth-child(6) { animation-delay: 0.6s; }
+
+    @keyframes fadeIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .gallery-item:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+      z-index: 10;
     }
+
     .gallery-item img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
+      transition: transform 0.5s ease;
     }
+
+    .gallery-item:hover img {
+      transform: scale(1.05);
+    }
+
+    .photo-title {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.65);
+      color: white;
+      padding: 12px;
+      font-size: 1rem;
+      font-weight: 500;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+      text-align: center;
+      backdrop-filter: blur(2px);
+    }
+
+    .gallery-item:hover .photo-title {
+      transform: translateY(0);
+    }
+
     footer {
       text-align: center;
-      margin-top: 40px;
-      color: #888;
+      margin-top: 50px;
+      color: #7f8c8d;
+      font-size: 0.95rem;
+      padding: 20px;
+    }
+
+    /* 模态框样式 */
+    #modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    #modal.active {
+      display: flex;
+      opacity: 1;
+    }
+    #modal img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 8px;
+      box-shadow: 0 0 30px rgba(255,255,255,0.2);
+    }
+    #close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -67,25 +166,61 @@
     <p>© 2025 我的摄影作品集</p>
   </footer>
 
+  <!-- 模态框 -->
+  <div id="modal">
+    <button id="close">&times;</button>
+    <img id="modal-img" src="" alt="大图预览">
+  </div>
+
   <script>
-    // 👇 在这里填写你的照片信息
     const photos = [
       { src: "images/photo1.jpg", alt: "日落海岸" },
       { src: "images/photo2.jpg", alt: "城市夜景" },
       { src: "images/photo3.jpg", alt: "森林晨雾" },
-      // ➕ 继续添加你的照片，格式如上
+      // ➕ 继续添加你的照片
     ];
 
     const gallery = document.getElementById("gallery");
+    const modal = document.getElementById("modal");
+    const modalImg = document.getElementById("modal-img");
+    const closeBtn = document.getElementById("close");
+
     photos.forEach(photo => {
       const item = document.createElement("div");
       item.className = "gallery-item";
-      item.innerHTML = `<img src="${photo.src}" alt="${photo.alt}" loading="lazy">`;
+      item.innerHTML = `
+        <img src="${photo.src}" alt="${photo.alt}" loading="lazy">
+        <div class="photo-title">${photo.alt}</div>
+      `;
       item.addEventListener("click", () => {
-        // 点击放大（简单实现）
-        alert("点击查看大图功能（后续可升级）\n图片路径：" + photo.src);
+        modalImg.src = photo.src;
+        modalImg.alt = photo.alt;
+        modal.classList.add("active");
+        document.body.style.overflow = "hidden"; // 防止背景滚动
       });
       gallery.appendChild(item);
+    });
+
+    // 关闭模态框
+    closeBtn.addEventListener("click", () => {
+      modal.classList.remove("active");
+      document.body.style.overflow = "";
+    });
+
+    // 点击背景关闭
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.classList.remove("active");
+        document.body.style.overflow = "";
+      }
+    });
+
+    // 键盘 ESC 关闭
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && modal.classList.contains("active")) {
+        modal.classList.remove("active");
+        document.body.style.overflow = "";
+      }
     });
   </script>
 </body>
